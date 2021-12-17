@@ -8,6 +8,7 @@ gemspec
 
 gem 'bundler'
 gem 'rake'
+gem 'liquid', github: 'Shopify/liquid', ref: 'feature/new-comment-syntax'
 
 group :test do
   gem 'minitest'
