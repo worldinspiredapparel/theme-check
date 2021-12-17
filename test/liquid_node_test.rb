@@ -26,6 +26,10 @@ module ThemeCheck
           {{
             'x'
           }}
+          {%
+            # inline comment
+            # block
+          %}
         </ul>
       END
       assert_can_find_node_with_markup(root, "if true ")
@@ -39,6 +43,7 @@ module ThemeCheck
       assert_can_find_node_with_markup(root, "if\n  true")
       assert_can_find_node_with_markup(root, " 'x' ")
       assert_can_find_node_with_markup(root, "\n    'x'\n  ")
+      assert_can_find_node_with_markup(root, "# inline comment\n    # block\n  ")
     end
 
     def test_inside_liquid_tag?
