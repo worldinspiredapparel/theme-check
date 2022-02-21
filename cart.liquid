@@ -1,0 +1,277 @@
+{% comment %}
+
+  This is your /cart template.
+
+{% endcomment %}
+
+{% if cart.item_count > 0 %}
+	<div class="container">
+      
+      <div id="error"></div> 
+  <form action="/cart" method="post" novalidate class="cart grid__item wide--four-sixths  post-large--four-sixths   small-grid__item">
+
+
+    {% if cart.announcements.size > 0 %}
+      <ul class="note">
+        {% for announcement in cart.announcements %}
+          <li>{{ announcement }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if cart.errors.size > 0 %}
+      <ul class="note errors">
+        {% for error in cart.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    
+      <table class="shop_table cart wishlist_table table--responsive">
+    <thead>
+      <tr>
+       
+        <th class="cart-name"><span class="nobr">{{ 'cart.label.product' | t }}</span></th>
+            <th class="product-thumbnail"></th>
+        <th class="product-price"> <span class="nobr">{{ 'cart.label.price' | t }}</span></th>
+        <th class="product-stock-stauts"> <span class="nobr">{{ 'cart.label.quantity' | t }}</span> </th>
+        <th class="product-add-to-cart">{{ 'cart.label.total' | t }}</th>
+         <th class="product-remove"></th>
+      </tr>
+    </thead>
+    <tbody class="cart-box">
+
+          {% for item in cart.items %}
+          <tr id="{{ line_item.id }}">
+            <td data-label="{{ 'customer.order.product' | t }}">
+              <a href="{{ item.url | within: collections.all }}" class="cart__image">
+                 <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+              </a>
+            </td>
+            <td  data-label="{{ 'customer.order.sku' | t }}">
+                <a href="{{ item.url }}" class="h5">
+                  {{ item.product.title }}
+                </a>
+              {% unless item.variant.title contains 'Default' %}
+                  <br>
+         
+              {%- unless item.product.has_only_default_variant -%}{%- for option in item.options_with_values -%}
+		        
+              <small>{{ option.name }}: <strong>{{ option.value }}</strong></small>
+              
+              
+              {%- endfor -%}{%- endunless -%}
+                {% endunless %}
+                {% if settings.cart_vendor_enable %}
+                  <p>{{ item.vendor }}</p>
+                {% endif %}
+                {% if item.properties.size > 0 %}
+                  {%- comment -%}{% for p in item.properties %}
+                    {% unless p.last == blank %}
+                      {{ p.first }}:
+
+                      {% comment %}
+                        Check if there was an uploaded file associated
+                      {% endcomment %}
+                      {% if p.last contains '/uploads/' %}
+                        <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                      {% else %}
+                        {{ p.last }}
+                      {% endif %}
+
+                      <br>
+                    {% endunless %}
+                  {% endfor %}{%- endcomment -%}{%- for p in item.properties -%}
+            {%- unless p.last == blank -%}
+              <li class="product-details__item product-details__item--property{%if property_size == 0%} hide{% endif %}" data-cart-item-property>
+                <span class="product-details__item-label" data-cart-item-property-name>{{ p.first }}: </span>
+
+                {%- comment -%}
+                  Check if there was an uploaded file associated
+                {%- endcomment -%}
+                <span data-cart-item-property-value>
+                  {%- if p.last contains "uploads" -%}
+                    <a href="{{ p.last }}">Uploaded File</a>
+                  {%- else -%}
+                    {{ p.last }}
+                  {%- endif -%}
+                </span>
+              </li>
+            {%- endunless -%}
+          {%- endfor -%}
+            <button type="button" class="edit_cart_option btn btn--primary button" data-product_id="{{item.product_id}}" data-key="{{item.key}}" data-variant_id="{{item.variant_id}}" data-quantity="{{item.quantity}}">Edit Options</button>
+                {% endif %}
+</td>
+            <td data-label="{{ 'customer.order.price' | t }}"><span class='hulkapps-cart-item-price' data-key='{{item.key}}'>{{ item.price | money }}</span></td>
+            <td data-label="{{ 'customer.order.quantity' | t }}">
+              <div class="nb-quantity style-1">
+                <input type="number" class="quantity-selector cart-number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0">
+						<div class="qty-buttons">
+				  <span class="qtyplus1">+</span>
+				      <span class="qtyminus1">-</span>
+                </div>
+					
+</div>
+              
+              
+              
+            
+            </td>
+            <td  data-label="{{ 'customer.order.total' | t }}" > {% if item.original_line_price != item.line_price %}
+                    <small class="cart-item__original-price"><s><span class='hulkapps-cart-item-line-price' data-key='{{item.key}}'>{{ item.original_line_price | money }}</span></s></small>
+                  {% endif %}
+                  <span class='hulkapps-cart-item-line-price' data-key='{{item.key}}'>{{ item.line_price | money }}</span></td>
+            <td  data-label="{{ 'cart.label.remove' | t }}" >  
+
+<a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove">
+                  <span><i class="fa fa-trash"></i></span>
+                </a></td>
+          </tr>
+        {% endfor %}
+      
+    </tbody>
+
+  </table>
+    
+    
+ 
+  
+
+    {% if cart.discounts.size > 0 %}
+    <div class="cart-additional-savings text-right cart__row">
+      <span class="label cart-additional-savings__label">{{ 'cart.general.additional_savings' | t }}</span>
+      <span class="h5 cart-additional-savings__price">{{ cart.discount.total_savings | money }}</span>
+      {% for discount in cart.discounts %}
+        <small class="cart-additional-savings__savings">{{ discount.title }}</small>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="cart__row">
+      <div class="grid shipping-section">
+        {% comment %}
+          Optional, add a textarea for special notes
+            - Your theme settings can turn this on or off. Default is on.
+            - Make sure you have name="note" for the message to be submitted properly
+        {% endcomment %}
+        {% if settings.cart_notes_enable %}
+          {% assign noteSize = cart.note | size %}
+          <div class="grid__item wide--two-fifths post-large--two-fifths large--two-fifths">
+            <button type="button" class="text-link cart__note-add{% if noteSize > 0 %} is-hidden{% endif %}">
+              {{ 'cart.label.add_note' | t }}
+            </button>
+            <div class="cart__note{% if noteSize > 0 %} is-active{% endif %}">
+              <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+              <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>
+            </div>
+          </div>
+        {% endif %}
+        <div class="grid__item text-right wide--three-fifths  post-large--three-fifths large--three-fifths">
+        
+          <p class="shopping-checkout"><em>{{ 'cart.general.shipping_at_checkout' | t }}</em></p>
+
+          {% comment %}
+            Continue shopping button
+          {% endcomment %}
+          <div class="cart_btn">
+          <a class="btn" href="/collections/all">{{ 'cart.general.continue_shopping' | t }}</a>
+
+          <input type="submit" name="update" class="btn update-cart" value="{{ 'cart.general.update' | t }}">
+       
+
+          {% if additional_checkout_buttons %}
+            <div class="cart__additional_checkout">{{ content_for_additional_checkout_buttons }}</div>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>	
+	
+  </form>
+  <div class="cart-right grid__item wide--two-sixths  post-large--two-sixths   small-grid__item ">
+     <form action="/cart" method="post" novalidate>
+       <div class="cart_totals ">
+
+	
+	<h3>Cart totals</h3>
+
+	<div class="cart-totals-wrap">
+		<table cellspacing="0" class="shop_table shop_table_responsive">
+
+			<tbody>
+            <tr class="cart-subtotal">
+				<th><span class="cart__subtotal-title h5">{{ 'cart.general.subtotal' | t }}</span></th>
+				<td data-title="Subtotal"> <span class='hulkapps-cart-original-total'>{{ cart.total_price | money }}</span>  </td>
+			</tr> 
+             
+		
+		</tbody>
+       
+      </table>
+ 	 {% include 'shipping-calculator' %}	
+   
+		<div class="cart_btn_checkout">
+			<div class="cart_total">
+              <span class="cart__subtotal-title h5">{{ 'cart.general.subtotal' | t }}</span>
+              <span data-title="Subtotal"> <span class='hulkapps-cart-original-total'>{{ cart.total_price | money }}</span> </span> </div>
+          <input type="submit" name="checkout" class="btn btn--full" value="{{ 'cart.general.checkout' | t }}">
+		</div>
+       
+	</div>
+</div>
+         </form>
+    <form action="/cart" method="post" name="myForm" >
+     <div class="coupon">
+              <h3 >Coupon</h3>
+       <div class="coupon-wrap">
+          <input type="text" name="discount" id="couponcode" value class="coupon-code" placeholder="Coupon code"  required >
+          <input type="submit" name="checkout" class="btn btn--full" value="Apply coupon">
+       </div>     
+    </div>
+       </form>
+  
+      </div>
+      
+{% section 'cross-sell'  %}
+</div>
+		
+{% else %}
+  {% comment %}
+    The cart is empty
+  {% endcomment %}
+<div class="container">
+<div class="cart_empty_msg">
+  <h2>{{ 'cart.general.title' | t }}</h2>
+  <p>{{ 'cart.general.empty' | t }}</p>
+  <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+</div>
+</div>
+
+{% endif %}
+<script>
+  $('.qtyplus1').click(function(e){
+    e.preventDefault();
+    var currentVal = parseInt($(this).parent().parent().find('input[name="updates[]"]').val());
+    if (!isNaN(currentVal)) {
+      $(this).parent().parent().find('input[name="updates[]"]').val(currentVal + 1);
+    } else {
+      $(this).parent().parent().find('input[name="updates[]"]').val(1);
+    }
+  });
+
+  $(".qtyminus1").click(function(e) {
+
+    e.preventDefault();
+    var currentVal = parseInt($(this).parent().parent().find('input[name="updates[]"]').val());
+    if (!isNaN(currentVal) && currentVal > 1) {
+      $(this).parent().parent().find('input[name="updates[]"]').val(currentVal - 1);
+    } else {
+      $(this).parent().parent().find('input[name="updates[]"]').val(1);
+    }
+  });
+
+
+</script>
+          
