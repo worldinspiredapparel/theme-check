@@ -1,0 +1,156 @@
+<div data-section-id="{{ section.id }}" data-section-type="cms-type-4" class="cms-type-4">  
+  <div class="grid-uniform">    
+    <div class="cms-type-4-block parallax" style= {% if section.settings.image_1 != blank %} "background-image:url('{{ section.settings.image_1 | img_url: 'master' }}');background-repeat:no-repeat;background-size:cover;background-position:center; {% else %} background:{{ section.settings.bg_color }};{% endif %}">
+      <div class="container">
+        <div class="dt-sc-hr-invisible-large"></div>
+
+        <div class="grid__item wide--seven-tenths post-large--seven-tenths large--grid__item medium-down--grid__item" style="float:none;margin:auto;text-align:center;">  
+          <div class="cms-type-4-content  wow fadeInUp animated" style="margin:auto;text-align:center; ">
+
+
+            {% if section.settings.title_1 != blank %}
+            <h2 style="color:{{ section.settings.title_color }}">{{ section.settings.title_1 }}</h2>
+            {% endif %}
+            {% if section.settings.titleshadow_1 != blank %}
+            <h4 style="color:{{ section.settings.shadowtext_color }}">{{ section.settings.titleshadow_1 }}</h4>
+            {% endif %}
+            {% if section.settings.text_1 != blank %}
+            <p style="color:{{ section.settings.text_color }}">{{ section.settings.text_1 }}</p>
+            {% endif %}
+
+            <div class="cms-type-4-btn">
+
+              {% if section.settings.button_1 != blank %}
+              <a class="btn" href="{{ section.settings.link_1 }}">{{ section.settings.button_1 }}</a>    
+              {% endif %}
+              {% if section.settings.button_2 != blank %}
+              <a class="btn btn-2" href="{{ section.settings.link_2 }}">{{ section.settings.button_2 }}</a>    
+              {% endif %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dt-sc-hr-invisible-large"></div>
+
+    </div>
+
+  </div>
+  <div class="dt-sc-hr-invisible-large"></div>
+
+  <style>
+
+
+
+    .cms-type-4-btn .btn { background: {{ section.settings.btn_bg }};color:{{ section.settings.btn_color }}; }
+    .cms-type-4-btn .btn:hover { background: {{ section.settings.btn_hover_bg }};color:{{ section.settings.btn_hover_color }};border-color: {{ section.settings.btn_hover_bg }}; }
+    .cms-type-4-btn .btn:hover:after, .cms-type-4-btn .btn:hover:before,.cms-type-4-btn .btn:focus:after, .cms-type-4-btn .btn:focus:before,.cms-type-4-btn .btn:active:after, .cms-type-4-btn .btn:active:before { border-color: {{ section.settings.btn_bg }}; }
+
+  </style>
+</div>
+{% schema %}
+{
+"name": "About Page - Banner",
+
+"settings": [
+{
+"type": "image_picker",
+"id": "image_1",
+"label": "Image",
+"info": "Size: 1920x816"
+},
+{
+"type": "color",
+"id": "bg_color",
+"label": "Bg Color",
+"info": "Size: 1920x816"
+},
+{
+"type": "text",
+"id": "titleshadow_1",
+"label": "Sub Heading"
+},
+{
+"type": "color",
+"id": "shadowtext_color",
+"label":"Text color",
+"default": "#000"
+},
+{
+"type": "text",
+"id": "title_1",
+"label": "Heading"
+},
+{
+"type": "color",
+"id": "title_color",
+"label":"Title color",
+"default": "#000"
+},
+{
+"type": "textarea",
+"id": "text_1",
+"label": "Description"
+},
+{
+"type": "color",
+"id": "text_color",
+"label":"Text color",
+"default": "#000"
+},
+
+{
+"type": "text",
+"id": "button_1",
+"label": "Button text"
+},
+{
+"type": "color",
+"id": "btn_bg",
+"label":"Button Bg",
+"default": "#121212"
+},
+{
+"type": "color",
+"id": "btn_color",
+"label":"Button Color",
+"default": "#fff"
+},
+{
+"type": "color",
+"id": "btn_hover_bg",
+"label":"Button Hover Bg",
+"default": "#000"
+},
+{
+"type": "color",
+"id": "btn_hover_color",
+"label":"Button Hover Color",
+"default": "#fff"
+},
+
+{
+"type": "url",
+"id": "link_1",
+"label": "Link URL"
+},
+{
+"type": "text",
+"id": "button_2",
+"label": "Button text"
+},
+
+{
+"type": "url",
+"id": "link_2",
+"label": "Link URL"
+}
+]
+}
+{% endschema %}
+
+
+
+
+
+
