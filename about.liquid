@@ -1,0 +1,157 @@
+<div data-section-id="{{ section.id }}"  data-section-type="About section" class="about-us">
+  {% if section.settings.showvedaone_2_section %}
+  <div class="grid-uniform section-two block1">
+    <div class="container">
+      <div class="grid__item">
+        {% if  section.settings.abtone_image_2 != blank %}
+        <div class="grid__item wide--one-half post-large--one-half large--one-half medium--grid__item small-grid__item">
+          <div class="section-two-leftimg">         
+            <img src="{{ section.settings.abtone_image_2 | img_url: "master" }}" alt="{{ section.settings.abtone_image_2_heading }}" />             
+          </div>
+        </div>
+        {% endif %}
+        <div class="grid__item wide--one-half post-large--one-half large--one-half medium--grid__item small-grid__item">
+          {% if section.settings.abtone_2_title != blank %}   
+          <h2 style="color:{{section.settings.abtone_2_maintilte }}">{{ section.settings.abtone_2_title }}</h2>
+          <div class="dt-sc-hr-invisible-very-small"></div>
+          {% endif %} 
+          {% if section.settings.abtone_2_des != blank %}
+          <p style="color:{{section.settings.abtone_2_desc }}">{{section.settings.abtone_2_des }}</p>
+          {% endif %}
+          <div class="grid__item">
+            <div class="grid__item wide--one-half post-large--one-half large--one-half medium--grid__item small-grid__item">
+              <ul>
+                {% if section.settings.abtone_2_listone != blank %}  <li><span class="{{section.settings.abtone_2_icon_1}}"></span>{{section.settings.abtone_2_listone }} </li> {% endif %}
+                {% if section.settings.abtone_2_listtwo != blank %} <li><span class="{{section.settings.abtone_2_icon_2}}"></span>{{section.settings.abtone_2_listtwo }} </li>{% endif %}
+              </ul>
+            </div>
+            <div class="grid__item wide--one-half post-large--one-half large--one-half medium--grid__item small-grid__item">
+              <ul>
+                {% if section.settings.abtone_2_listthree != blank %} <li><span class="{{section.settings.abtone_2_icon_3}}"></span>{{section.settings.abtone_2_listthree }}</li>{% endif %}
+                {% if section.settings.abtone_2_listfour != blank %}  <li><span class="{{section.settings.abtone_2_icon_4}}"></span>{{section.settings.abtone_2_listfour }}</li>{% endif %}
+              </ul>
+            </div>
+          </div>
+          {% if section.settings.btn_2_text != blank %}
+          <a class="btn" href="{{ section.settings.link_2 }}">{{ section.settings.btn_2_text }}</a>
+          {% endif %} 
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %} 
+  <div class="dt-sc-hr-invisible-large"></div>
+</div>
+
+{% schema %}
+{
+"name": "Information Block",
+"settings": [
+
+{
+"type": "checkbox",
+"id": "showvedaone_2_section",
+"label": "Display  This Section"
+},
+{
+"type": "image_picker",
+"id": "abtone_image_2",
+"label": "Image",
+"info": "Size: 953x700"
+},
+{
+"type": "text",
+"id": "abtone_image_2_heading",
+"label": "Image Alt Text"
+},
+
+{
+"type": "text",
+"id": "abtone_2_title",
+"label": "Heading"
+},
+{
+"type": "color",
+"id": "abtone_2_maintilte",
+"default": "#000",
+"label": "Heading COlor"
+},
+{
+"type": "textarea",
+"id": "abtone_2_des",
+"label": "Description"
+},
+{
+"type": "color",
+"id": "abtone_2_desc",
+"default": "#000",
+"label": "Desc COlor"
+},
+{
+"type": "text",
+"id": "abtone_2_listone",
+"label": "List"
+},
+{
+"type": "text",
+"id": "abtone_2_icon_1",
+"label": "Icon Class"
+},
+{
+"type": "text",
+"id": "abtone_2_listtwo",
+"label": "List"
+},
+{
+"type": "text",
+"id": "abtone_2_icon_2",
+"label": "Icon Class"
+},
+{
+"type": "text",
+"id": "abtone_2_listthree",
+"label": "List"
+},
+{
+"type": "text",
+"id": "abtone_2_icon_3",
+"label": "Icon Class"
+},
+{
+"type": "text",
+"id": "abtone_2_listfour",
+"label": "List"
+},
+{
+"type": "text",
+"id": "abtone_2_icon_4",
+"label": "Icon Class"
+},
+{
+"type": "color",
+"id": "aboutveda_1_listcolor",
+"default": "#000",
+"label": "List color"
+},
+{
+"type": "text",
+"id": "btn_2_text",
+"label": "Button Text"
+},
+{
+"type": "url",
+"id": "link_2",
+"label": "Link URL"
+}
+
+
+
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
