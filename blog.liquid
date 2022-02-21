@@ -1,0 +1,114 @@
+{% if settings.blog_page_sidebar == "left_sidebar" or  settings.blog_page_sidebar == "right_sidebar" %}
+{% assign mid_width = "grid__item wide--seven-tenths post-large--three-quarters large--three-quarters" %}
+{% else %}
+{% assign mid_width = "grid__item" %}
+{% endif %}
+<div class="nb-page-title-wrap bg_title_post_category bg_img" style="background-image:url({{ settings.background_blog | img_url: '1920X'  }})">
+
+    <div class="nb-page-title">
+      <h1>Blog</h1></div>
+
+</div>
+{% paginate blog.articles by 6 %}
+<div class="blog-design-4 container ">
+    <div class="wrapper">
+  <div class="blog-section ">
+    {% if settings.blog_page_sidebar == "left_sidebar" %}
+    <aside class="sidebar left-sidebar grid__item wide--three-tenths post-large--one-quarter large--one-quarter">
+      {% include 'blog-sidebar' %}
+    </aside>    
+    {% endif %}    
+    <div class="grid__item {{ mid_width }}">    
+      {% for article in blog.articles %}
+      <div class="grid__item wide--one-half post-large--one-half large--one-half">
+        <div class="article">
+          {% if settings.show_blog_4_img %}
+          {% if article.image %}
+          {% assign image_alt = article.title | escape %}
+          <div class="article-img">
+            {{ article | img_url: 'grande' | img_tag: image_alt, 'article__image' | link_to: article.url }}
+          </div>
+          {% endif %}
+          {% endif %}
+          
+          {% if article.tags.size > 0 and settings.show_blog_4_tag %}
+              <div class="blog-tag">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                {% for tag in article.tags %}
+                <a class="blog-tags" href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %} <span class="meta-sep">&#44;</span> {% endunless %}
+                {% endfor %}
+              </div>
+              {% endif %}
+          <div class="blog-description">
+           
+            <div class="home-blog-content blog-detail">				
+              <h5><a href="{{ article.url }}">{{ article.title }}</a></h5>
+               <div class="blogs-sub-title">
+              <p class="author">
+                {% if settings.show_blog_4_author %}            
+                <i class="zmdi zmdi-account"></i>
+                <span> {{ article.author }}</span>
+                {% endif %}
+              </p>  
+                  {% if settings.show_blog_4_date %}
+              <p class="blog-date">
+                 <i class="fa fa-calendar-o" aria-hidden="true"></i> <span data-datetime="{{ article.published_at | date: '%Y-%m-%d' }}"><span class="date">{{ article.published_at | date: '%b' }} {{ article.published_at | date: '%d' }} , {{ article.published_at | date: '%Y' }}</span></span>             
+              </p>
+              {% endif %}
+                   {% if article.comments_enabled? %}
+              {% assign number_of_comments = article.comments_count %}
+              <p class="comments-count"><i class="zmdi zmdi-comments"></i>{{  number_of_comments }}</p>
+              {% endif %}
+            </div>
+              {% if settings.show_blog_4_content %}
+              <p>{{ article.content | strip_html | replace: '...', '[..]' | truncate: 200 }}</p>
+              {% endif %}
+
+             
+            
+            </div>
+ {% if settings.show_blog_4_btn %}
+              <div class="blog-btn">
+                <a class="btn" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }}</a>
+              </div>
+              {% endif %}
+          </div>
+          
+          <div class="image-mask">
+            <a href="{{ article.url }}"><span>View post →</span></a>
+                    
+                            
+           {%- comment -%} // estimate read time // {%- endcomment -%}
+{%- assign about = article.content -%}{%- assign readtime = '' -%}
+{%- if about != blank -%}
+{%- comment -%} // exclude html markup from word count // {%- endcomment -%}
+{%- assign aboutWords = about | strip_html | split:' ' -%}
+{%- comment -%} // how many words do people read per minute? (200-300) // {%- endcomment -%}
+{%- capture readtime -%}{{ aboutWords.size | divided_by: 100 | round | at_least: 1 }}{%- endcapture -%}
+{%- capture readtime -%}{{ readtime }} minute read{%- endcapture -%}
+{%- endif -%}
+{%- comment -%} // place this where you want it to appear on the page // {%- endcomment -%}
+
+          <div class="read-time"> {{ readtime }}</div>
+              </div>
+        </div>
+      </div>
+      {% endfor %}    
+      {% if paginate.pages > 1 %}
+      <div class="text-center">
+        {% include 'pagination-default' %}
+      </div>
+      {% endif %}
+    </div>    
+    {% if settings.blog_page_sidebar == "right_sidebar" %}
+    <aside class="sidebar right-sidebar grid__item wide--three-tenths post-large--one-quarter large--one-quarter">
+      {% include 'blog-sidebar' %}
+    </aside>    
+    {% endif %}
+  </div>
+  </div>
+</div>
+{% endpaginate %}
+
+
+
