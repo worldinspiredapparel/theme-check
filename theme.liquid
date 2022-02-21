@@ -1,0 +1,332 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+  {% if settings.favicon_enable %}
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
+
+  <!-- Title and description ================================================== -->
+  <title>
+  {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  <!-- Social meta ================================================== -->
+  {% include 'social-meta-tags' %}
+  <!-- Helpers ================================================== -->
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+
+
+  <!-- CSS ================================================== -->
+  {{ 'frame.scss.css' | asset_url | stylesheet_tag }}   
+  {{ 'style.css' | asset_url | stylesheet_tag }}  
+  {{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+  {{ 'slick.scss.css' | asset_url | stylesheet_tag }}  
+  {{ 'magnific-popup.css' | asset_url | stylesheet_tag }}
+  {{ 'slick-slider.css' | asset_url | stylesheet_tag }}
+  {{ 'swiper-bundle.css' | asset_url | stylesheet_tag }}  
+   {{ 'rs6.css' | asset_url | stylesheet_tag }}  
+  {% if settings.base_font contains 'Google' %}
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family={{ settings.base_font | remove: 'Google+' }}:300,300italic,400,600,400italic,600italic,700,700italic,800,800italic&subset=latin">
+  {% endif %}
+  {% if settings.header_font contains 'Google' %}
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family={{ settings.header_font | remove: 'Google+' }}:300,300italic,400,600,400italic,600italic,700,700italic,800,800italic">
+  {% endif %}
+  {% if settings.other_font contains 'Google' %}
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family={{ settings.other_font | remove: 'Google+' }}:300,300italic,400,600,400italic,600italic,700,700italic,800,800italic">
+  {% endif %}
+ {% if settings.subtitle_font contains 'Google' %}
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family={{ settings.subtitle_font | remove: 'Google+' }}:300,300italic,400,600,400italic,600italic,700,700italic,800,800italic">
+  {% endif %}
+
+  <!-- Header hook for plugins ================================================== -->
+  {{ content_for_header }}
+  
+  {% include 'oldIE-js' %}  
+  {{ 'header.js' | asset_url | script_tag }} 
+
+  {% if template contains 'customers' %}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% endif %}
+
+<script type="text/javascript">function setREVStartSize(t){try{var h,e=document.getElementById(t.c).parentNode.offsetWidth;if(e=0===e||isNaN(e)?window.innerWidth:e,t.tabw=void 0===t.tabw?0:parseInt(t.tabw),t.thumbw=void 0===t.thumbw?0:parseInt(t.thumbw),t.tabh=void 0===t.tabh?0:parseInt(t.tabh),t.thumbh=void 0===t.thumbh?0:parseInt(t.thumbh),t.tabhide=void 0===t.tabhide?0:parseInt(t.tabhide),t.thumbhide=void 0===t.thumbhide?0:parseInt(t.thumbhide),t.mh=void 0===t.mh||""==t.mh||"auto"===t.mh?0:parseInt(t.mh,0),"fullscreen"===t.layout||"fullscreen"===t.l)h=Math.max(t.mh,window.innerHeight);else{for(var i in t.gw=Array.isArray(t.gw)?t.gw:[t.gw],t.rl)void 0!==t.gw[i]&&0!==t.gw[i]||(t.gw[i]=t.gw[i-1]);for(var i in t.gh=void 0===t.el||""===t.el||Array.isArray(t.el)&&0==t.el.length?t.gh:t.el,t.gh=Array.isArray(t.gh)?t.gh:[t.gh],t.rl)void 0!==t.gh[i]&&0!==t.gh[i]||(t.gh[i]=t.gh[i-1]);var r,a=new Array(t.rl.length),n=0;for(var i in t.tabw=t.tabhide>=e?0:t.tabw,t.thumbw=t.thumbhide>=e?0:t.thumbw,t.tabh=t.tabhide>=e?0:t.tabh,t.thumbh=t.thumbhide>=e?0:t.thumbh,t.rl)a[i]=t.rl[i]<window.innerWidth?0:t.rl[i];for(var i in r=a[0],a)r>a[i]&&0<a[i]&&(r=a[i],n=i);var d=e>t.gw[n]+t.tabw+t.thumbw?1:(e-(t.tabw+t.thumbw))/t.gw[n];h=t.gh[n]*d+(t.tabh+t.thumbh)}void 0===window.rs_init_css&&(window.rs_init_css=document.head.appendChild(document.createElement("style"))),document.getElementById(t.c).height=h,window.rs_init_css.innerHTML+="#"+t.c+"_wrapper { height: "+h+"px }"}catch(t){console.log("Failure at Presize of Slider:"+t)}};</script>
+
+
+  {% if template contains 'product' or template contains 'article' %}
+  <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+  <script type="text/javascript">stLight.options({publisher: "4a467312-eb52-4e56-a80a-d5930e0afac4", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+  {% endif %}
+  {% if settings.preloader_enable %}
+  <script>
+    // Wait for window load
+    $(window).load(function() {		
+      var loader = $( '.se-pre-con' );
+      if ( loader.length ) {
+        $( window ).on( 'beforeunload', function() {
+          loader.fadeIn( 500, function() {
+            loader.children().fadeIn( 100 )
+          });
+        });
+        loader.fadeOut(1500 );
+        loader.children().fadeOut();
+      }
+
+    });
+  </script> 
+  {% endif %}  
+  <script>
+   window.use_sticky = {{ settings.use_sticky_header }};
+    window.ajax_cart = {{ settings.use_ajax_cart }};
+    window.money_format = "{{ shop.money_with_currency_format }}";
+    window.shop_currency = "{{ shop.currency }}";
+    window.show_multiple_currencies = {{ settings.display_currency }};
+    window.enable_sidebar_multiple_choice = true;
+    window.loading_url = "{{ 'loading.gif' | asset_url}}";     
+    window.dropdowncart_type = "hover";
+    window.file_url = "{{''|file_url}}";
+    window.asset_url = "{{''|asset_url}}";
+    window.items="{{ 'cart.general.items' | t }}";
+    window.many_in_stock="{{ 'products.product.many_in_stock' | t  }}";
+    window.out_of_stock="{{ 'products.product.out_of_stock' | t  }}";
+    window.in_stock="{{ 'products.product.in_stock' | t  }}";
+    window.unavailable="{{ 'products.product.unavailable' | t  }}";
+    window.product_name="{{ 'products.compare.product_name' | t  }}";
+    window.product_image="{{ 'products.compare.product_image' | t  }}";
+    window.product_desc="{{ 'products.compare.product_desc' | t  }}";
+    window.available_stock="{{ 'products.compare.available_stock' | t  }}";
+    window.unavailable_stock="{{ 'products.compare.unavailable_stock' | t  }}";
+    window.compare_note="{{ 'products.compare.compare_note' | t  }}";
+    window.added_to_cmp="{{ 'products.compare.added_to_cmp' | t  }}";
+    window.add_to_cmp="{{ 'products.compare.add_to_cmp' | t  }}";
+    window.select_options="{{ 'products.product.select_options' | t  }}";
+    window.add_to_cart="{{ 'products.product.add_to_cart' | t  }}";
+    window.confirm_box="{{ 'products.compare.confirm_box' | t  }}";
+    window.cancelButtonText="{{ 'products.compare.cancelButtonText' | t  }}";
+     window.use_color_swatch = {{ settings.enable_color_swatch }};
+        window.remove="{{ 'cart.label.remove' | t  }}";
+
+	var  compare_list = []; 
+  </script>  
+
+
+
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+    <div class="gf-menu-device-wrapper">
+      <div class="close-menu">x</div>
+      <div class="gf-menu-device-container"></div>
+    </div>             
+  </nav>
+  {% if settings.preloader_enable %}<div class="se-pre-con"></div> {% endif %}
+  <div id="PageContainer"></div>   
+  <div class="quick-view"></div>         
+
+  <div id="SearchDrawer" class="search-bar drawer drawer--top search-bar-type-2">
+  <div class="search-bar__table">
+    <form action="/search" method="get" class="search-bar__table-cell search-bar__form" role="search">
+      <input type="hidden" name="type" value="product">  
+      <div class="search-bar__table">
+        <div class="search-bar__table-cell search-bar__icon-cell">
+          <button type="submit" class="search-bar__icon-button search-bar__submit">
+            <span class="fa fa-search" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="search-bar__table-cell">
+          <input type="hidden" name="type" value="product">  
+          <input type="search" id="SearchInput" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}" class="search-bar__input">
+        </div>
+      </div>
+    </form>
+    <div class="search-bar__table-cell text-right">
+      <button type="button" class="search-bar__icon-button search-bar__close js-drawer-close">
+        <span class="fa fa-times" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</div>
+  <div class="header-type-5">      
+    <header class="site-header">
+      <div class="header-sticky">
+        <div id="header-landing" class="sticky-animate">
+          {% section 'header-type-5' %}
+               
+        </div>
+      </div>
+      
+    </header>
+
+        
+  </div>
+
+  
+  
+  {% if settings.use_breadcrumb %}
+  {% include 'breadcrumb' %}  
+  {% endif %}
+
+  {% if template contains 'index' %}     
+  {{ content_for_layout }}		       
+  {% else %}  
+  <main class="{% unless template contains "about" or template contains "product"   or template contains "cart" %}main-content {% endunless %}">  
+    {% unless template contains "contact" or template contains "about" %}   
+  
+    <div class="wrapper">
+      {% endunless %}
+      <div class="grid__item">           
+        {{ content_for_layout }}		          
+      </div>          
+      {% unless template contains "contact" or template contains "about" %}
+    </div>
+    {% endunless %}
+    {% unless template contains "about" or template contains "contact" %}
+ 
+    {% endunless %}
+     <div class="dt-sc-hr-invisible-large"></div>
+  </main>   
+  {% endif %}
+  <script>
+  jQuery(function($) {
+
+ var path = window.location.href;
+ $('.product_sidebar .widget .product-categories li a').each(function() {
+  if (this.href === path) {
+   $(this).addClass('active');
+  }
+ });
+});
+  </script>
+
+  {% section 'footer-model-6' %}
+  
+  {{ 'timber.js' | asset_url | script_tag }}  
+  {{ 'core-files.js' | asset_url | script_tag }}  
+  {{ 'theme.js' | asset_url | script_tag }}
+    {{ 'swiper-bundle.js' | asset_url | script_tag }}
+  
+    {{ 'revolution.tools.min.js' | asset_url | script_tag }} 
+  {{ 'rs6.min.js' | asset_url | script_tag }} 
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}    
+  {{ 'shop.js' | asset_url | script_tag }}    
+ 
+  {% if template contains 'article' or template contains 'product' %}
+  {% if settings.social_sharing_blog or settings.social_sharing_products %}
+  {{ 'social-buttons.js' | asset_url | script_tag }}
+  {% endif %}
+  {% endif %}
+
+  
+  <script> 
+  $(document).ready(function() {
+   var body = $('body');
+    var doc = $(document);
+    
+    var showLeftPush = $('#showLeftPush');
+    var nav = $('#cbp-spmenu-s1');
+    
+    showLeftPush.on('click', function(e) {
+      e.stopPropagation();
+    
+      body.toggleClass('cbp-spmenu-push-toright');
+      nav.toggleClass('cbp-spmenu-open');
+      showLeftPush.toggleClass('active');
+    });
+    
+    $('.gf-menu-device-wrapper .close-menu').on('click', function() {
+    	showLeftPush.trigger('click');
+    });
+    
+    doc.on('click', function(e) {
+      if (!$(e.target).closest('#cbp-spmenu-s1').length && showLeftPush.hasClass('active')) {
+        showLeftPush.trigger('click');
+      }        
+    });
+  });
+</script>
+  {% include 'qmodal' %}
+  {% include 'modal-compare' %} 
+  {% include 'modal-box' %}
+  {% include 'currencies' %}
+  {% include 'newsletter' %}  
+  {% if template contains 'index' %}
+  {{ 'wow.js' | asset_url | script_tag }}  
+  {% endif %}
+  
+ <script type="text/javascript">
+    $('.quick-view .close-window').click(function() {  			
+	$('.quick-view').switchClass("open-in","open-out");
+	});
+</script>
+  
+<script>
+  $('.qtyplus').click(function(e){
+    e.preventDefault();
+    var currentVal = parseInt($('input[name="quantity"]').val());
+    if (!isNaN(currentVal)) {
+      $('input[name="quantity"]').val(currentVal + 1);
+    } else {
+      $('input[name="quantity"]').val(1);
+    }
+
+  });
+
+  $(".qtyminus").click(function(e) {
+
+    e.preventDefault();
+    var currentVal = parseInt($('input[name="quantity"]').val());
+    if (!isNaN(currentVal) && currentVal > 0) {
+      $('input[name="quantity"]').val(currentVal - 1);
+    } else {
+      $('input[name="quantity"]').val(1);
+    }
+
+  });
+</script>
+  
+  {% if settings.display_recently_viewed_products %}
+  {% if template contains 'product' %}
+  <script>
+  Shopify.Products.recordRecentlyViewed();
+  </script>
+  {% endif %}
+  
+    {% endif %}
+    {{ 'instagram.js' | asset_url | script_tag }} 
+  
+   {{ 'magnific-popup.js' | asset_url | script_tag }}
+   <script type="text/javascript">
+       var feed = new Instafeed({
+    accessToken: $("#instafeed").data("accesstoken"),
+    limit:$("#instafeed").data("limit"),
+    resolution: $("#instafeed").data("resolution"),
+  });
+  
+  feed.run();
+  if ( $( '.p-video' ).length > 0 ) {
+			$( '.jas-popup-url' ).magnificPopup({
+				disableOn: 0,
+				tLoading: '<div class="loader"><div class="loader-inner"></div></div>',
+				type: 'iframe'
+			});
+		}
+     </script>
+   {% include 'suggest-products' %}  
+     
+
+</body>
+</html>
+
+
+{% include 'printcart' %}
