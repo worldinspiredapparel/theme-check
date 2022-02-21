@@ -1,0 +1,59 @@
+
+{% if settings.collection_sidebar_use == "left_sidebar" or  settings.collection_sidebar_use == "right_sidebar" %}
+{% assign mid_width = "grid__item wide--seven-tenths post-large--seven-tenths large--seven-tenths" %}
+{% else %}
+{% assign mid_width = "grid__item" %}
+{% endif %}
+<div class="container">
+  <div class="collection-products">
+
+    {% if settings.collection_sidebar_use == "left_sidebar" %}    
+    <div class="grid__item wide--three-tenths post-large--three-tenths large--three-tenths  left-sidebar">
+      {% include 'collection-sidebar' %}
+    </div>
+    {% endif %}
+    <div class="{{ mid_width }} sidebar-hidden">      
+      <div class="collection-list">
+        <div class="grid-uniform grid-link__container col-main">            
+          {% paginate collection.products by 12 %} 
+          {% include 'tool-grid' %}     
+          <div class="products-grid-view">
+            {% if collection.products.size > 0 %}      
+            <ul>
+              {% case settings.collection_grid %}
+              {% when '2' %}
+              {%- assign grid_item_width = 'wide--one-half post-large--one-half large--one-half medium--one-half small-grid__item' -%}            
+              {% when '3' %}
+              {%- assign grid_item_width = 'wide--one-third post-large--one-third large--one-half medium--one-half small-grid__item' -%}              
+              {% when '4' %}
+              {%- assign grid_item_width = 'wide--one-quarter post-large--one-third large--one-half medium--one-half small-grid__item' -%}              
+              {% when '5' %}
+              {%- assign grid_item_width = 'wide--one-fifth post-large--one-quarter large--one-half medium--one-half small-grid__item' -%}              
+              {% endcase %}
+              {% for product in collection.products %}
+              {% include 'product-grid-item', grid_item_width: grid_item_width %}
+              {% endfor %}
+            </ul>
+            {% else %}
+            <div class="grid__item">
+              <p><em>{{ 'home_page.onboarding.no_products_html' | t }}</em></p>
+            </div>
+            {% endif %}
+          </div>
+          {% if paginate.pages > 1 %}
+          <div class="text-center padding">
+            {% include 'pagination-custom' %}
+          </div>
+          {% endif %}
+          {% endpaginate %}  
+        </div>
+      </div>
+    </div>
+    {% if settings.collection_sidebar_use == "right_sidebar" %}    
+    <div class="grid__item wide--three-tenths post-large--three-tenths large--three-tenths  right-sidebar">
+      {% include 'collection-sidebar' %}
+    </div>
+    {% endif %}
+
+  </div>
+</div>
